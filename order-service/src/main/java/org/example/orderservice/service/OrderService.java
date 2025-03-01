@@ -32,7 +32,7 @@ public class OrderService {
             payment.setOrderId(order.getId());
             payment.setAmount(order.getPrice() * order.getQuantity());
             Payment paymentResponse = restTemplate.postForObject(
-                    "http://localhost:9192/payment", payment, Payment.class
+                    "http://PAYMENT-SERVICE/payment", payment, Payment.class
             );
 
             if (paymentResponse != null) {
