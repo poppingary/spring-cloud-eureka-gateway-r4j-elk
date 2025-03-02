@@ -13,15 +13,8 @@ import org.example.orderservice.service.OrderService;
 public class OrderController {
     private final OrderService orderService;
 
-    // Endpoint for POST requests to save an order
     @PostMapping
     public ResponseEntity<TransactionResponse> saveOrder(@RequestBody TransactionRequest transactionRequest) {
         return orderService.saveOrder(transactionRequest);
-    }
-
-    // Optional: Endpoint to test connectivity via GET
-    @GetMapping
-    public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok("Order endpoint is up and running.");
     }
 }

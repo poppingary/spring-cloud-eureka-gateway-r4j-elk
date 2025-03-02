@@ -22,4 +22,8 @@ public class PaymentService {
     private String isPaymentSuccessful() {
         return new Random().nextBoolean() ? "SUCCESS" : "FAILED";
     }
+
+    public Payment findPaymentByOrderId(long orderId) {
+        return paymentRepository.findByOrderId(orderId);
+    }
 }
