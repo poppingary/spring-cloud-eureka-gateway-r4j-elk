@@ -1,0 +1,11 @@
+server:
+  port: 9196
+
+spring:
+  application:
+    name: CONFIG-SERVICE
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/poppingary/cloud-config-server.git

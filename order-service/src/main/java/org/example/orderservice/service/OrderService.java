@@ -4,7 +4,8 @@ import org.example.orderservice.dto.Payment;
 import org.example.orderservice.dto.TransactionRequest;
 import org.example.orderservice.dto.TransactionResponse;
 import org.example.orderservice.entity.Order;
-import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
@@ -12,10 +13,17 @@ import org.springframework.web.client.RestTemplate;
 import org.example.orderservice.repository.OrderRepository;
 
 @Service
-@AllArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
     private final RestTemplate restTemplate;
+
+    public OrderService(OrderRepository orderRepository, RestTemplate restTemplate) {
+        this.orderRepository = orderRepository;
+        this.restTemplate = restTemplate;
+    }
+
+    @Value("${microservices.payment-service.endpoints.url}")
+    private String PAYMENT_SERVICE_URL;
 
     public ResponseEntity<TransactionResponse> saveOrder(TransactionRequest transactionRequest) {
         Order order = orderRepository.save(transactionRequest.getOrder());
@@ -32,7 +40,7 @@ public class OrderService {
             payment.setOrderId(order.getId());
             payment.setAmount(order.getPrice() * order.getQuantity());
             Payment paymentResponse = restTemplate.postForObject(
-                    "http://PAYMENT-SERVICE/payment", payment, Payment.class
+                    PAYMENT_SERVICE_URL, payment, Payment.class
             );
 
             if (paymentResponse != null) {

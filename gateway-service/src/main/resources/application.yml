@@ -2,6 +2,8 @@ server:
   port: 8989
 
 spring:
+  config:
+    import: "configserver:http://localhost:9196"
   application:
     name: GATEWAY-SERVICE
   cloud:
@@ -25,12 +27,3 @@ spring:
               args:
                 name: paymentCircuitBreaker
                 fallbackUri: forward:/fallback/payment
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    hostname: localhost
